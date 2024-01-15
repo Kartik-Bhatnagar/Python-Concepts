@@ -30,15 +30,21 @@ class DerivedClass2(BaseClass):
         print("this is the function inside the child class")
         
     def base_func(self):
-        Super.concrete_fxn(self) #using the base class function    
+        super().concrete_fxn()#using the base class function    
+        print("the above was the function derived from the Parent( abstract class)")
 
     def abs_function(self):
-        print("This function is derived from the parent class Base class and it is compoulasry to define this function here")
+        print("this function is in DerivedClass2")
 
-        print("the implementation of the function is defined here")        
+        print("its logic can be different from the other dervied classes functions")        
 
 print("We can't create a direct object of the Base class (which has abstract method ), we can create object only of the Derived/Child class")
-b1 = BaseClass()
-d1 = DerivedClass()
+#b1 = BaseClass() #this will throw an error
+#b1.concrete_fxn()#we can't access the abstract class mehtods or attributes
+d1 = DerivedClass1()
 d1.abs_function()
+
+d2 = DerivedClass2()
+d2.d_func2()
+d2.base_func()
 
