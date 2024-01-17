@@ -26,7 +26,7 @@ class C:
 
 
 class D(A, B):
-    # value = "d class"
+    value = "d class"
     def d(self):
         return "Function inside D"
 
@@ -47,3 +47,5 @@ print(F.value)
 
 d = D()
 print(d.value)
+
+print(help(d))
