@@ -1,9 +1,11 @@
 import requests
 import file_fxns
-from fp.fp import FreeProxy
+from fp.fp import FreeProxy #https://pypi.org/project/free-proxy/
+
 
 def get_my_ip(user_proxies):
-    ip_address = (requests.get("https://api.ipify.org?format=json",proxies=user_proxies).json())
+    ip_address = (requests.get("https://api64.ipify.org?format=json",proxies=user_proxies).json())
+    print(ip_address,user_proxies)
     _ip_log(ip_address)
 
 def _ip_log(ip_add):
@@ -16,7 +18,7 @@ def _ip_log(ip_add):
 def getProxies():
     print("getting a proxy id")
     http_proxy = FreeProxy(rand=True).get()
-    # print(http_proxy)
+    print(http_proxy)
     proxies = {"http":http_proxy}#,"https":http_proxy}
     return proxies
        
