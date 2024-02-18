@@ -19,9 +19,9 @@ def getProxies():
     print("getting a proxy id")
     http_proxy = FreeProxy(rand=True).get()
     print(http_proxy)
-    proxies = {"http":http_proxy}#,"https":http_proxy}
+    proxies = {"https":http_proxy}
     return proxies
-       
+
 
 """ Why proxy ::
  

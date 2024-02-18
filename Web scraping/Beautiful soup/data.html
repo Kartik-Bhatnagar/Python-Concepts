@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<title>9. Inheritance | OOP | python-course.eu</title>
+<meta name="description" content="Tutorial on Python: Inheritance" />
+<meta name="msapplication-config" content="/browserconfig.xml" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="format-detection" content="telephone=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="/favicon.ico" rel="shortcut icon">
+<link rel="preload" href="/includes/cssjs/fonts/FluxRegular.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+function gebi(ele){return document.getElementById(ele);}
+</script><style>
+/* Applies everywhere */
+
+*{box-sizing:border-box}
+@font-face {
+  font-family: FluxRegular;
+  src: url(/includes/cssjs/fonts/FluxRegular.woff2);
+  font-display: swap;
+}
+@font-face {
+  font-family: Georgia;
+  src: local(Georgia);
+  text-size-adjust: 80%;
+  line-height: 1.85;
+  letter-spacing: -0.15px;
+}
+body{margin:0;padding:0;font-family:arial,verdana,sans-serif}
+
+/* Widths, flex */
+
+#wrapper, #hori_nav ul, #foot_nav ul{max-width:1075px;margin:0 auto}
+#wrapper{display:flex;padding:0 0.4em;position:relative}
+#content{flex:1;padding:0;max-width:75%}
+
+/* Header */
+
+header{padding:0.4em;margin-bottom:2em}
+#logoImgs span{font-family:FluxRegular, Georgia,Times,"Times New Roman";font-size:3.7vw;color:#3777ad;font-weight:bold;white-space:nowrap}
+#logoImgs span span{color:#e55;font-size:1.3em;line-height:0.1;display:inline-block}
+#logo{background-image:url(/images/common/peu-logo.svg);width:50%;max-width:381px;height:74px}
+#logoImgs a{text-decoration:none}
+#logoImgs{display:flex;justify-content:center;align-items:center}
+#logoImgs > span:first-child{margin-right:0.3em}
+#logoImgs > span:first-child a{color:#3777ad}
+#hambSrch{display:flex;justify-content:space-between}
+#hambarg{cursor:pointer;margin:auto 0}
+#googSrchForm{max-width: max-content;margin:1em auto;font-size:0.85em}
+#googSrchForm label{display:none}
+#googlebox{width:calc(100% - 40px);max-width:200px}
+#hori_nav{background:#3777ad;display:flex;justify-content:center}
+#hori_nav ul{flex:1;font-size:0.9em}
+#hori_nav ul{margin:0;padding:0.2em 0;background:#3777ad;color:#fff;line-height:2.2em}
+#hori_nav li{margin:0.25em 0;padding:0 0.25em;line-height:1.65em;list-style-type:none;display:inline-block;vertical-align:middle}
+#hori_nav li{border-right:2px solid #efefef}
+#hori_nav li a{padding:0.2em 0.5em;color:#fff;text-decoration:none}
+#hori_nav li a:hover{background:#5ad;color:lightYellow}
+#hori_nav li.chosenUnder{padding:0em 0.5em;margin:0;background:#113}
+#hori_nav li.chosen{padding:0em 0.75em;margin:0;background:#113}
+
+/* Left navigation */
+
+#verti_nav{width:25%;margin-right:1em;font-size:0.9em}
+p.navHeading{margin:0;padding:0.3em;background:#3777ad;color:#fff}
+#verti_nav ol{padding:0 0 0 2em}
+#verti_nav ol li:first-child{list-style:none;margin-left:-1.2em}
+#verti_nav li{padding:0.25em 0.25em}
+#verti_nav li a{text-decoration:none}
+#verti_nav li a:hover{text-decoration:underline}
+#verti_nav li.chosen{padding:0.25em 0.2em;background:#bef}
+.topDn{position:relative;top:0.4em}
+#auth{margin-top:1em}
+#auth ul{padding-left:15px}
+.langLink{display:flex}
+.langLogo{color:#3777ad;font-weight:bold;padding:0.1em;margin-right:0.3em;border:2px solid #3777ad;border-radius:0.3em;height:fit-content}
+#newVertiNavDiv, #thisPageNavRight{height:calc(100vh - 40px); overflow-y:auto;scrollbar-width:thin}
+#newVertiNavDiv::-webkit-scrollbar, #thisPageNavRight::-webkit-scrollbar{width: 3px;background: #ddd}
+#newVertiNavDiv::-webkit-scrollbar-thumb, #thisPageNavRight::-webkit-scrollbar-thumb{background: #aaa;-webkit-border-radius: 1ex;-webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75)}
+
+/* Page contents drop down */
+/* (See @media below for #thisPageNavRight directives */
+
+#thisPageNav{margin:0 auto;width:250px;border:1px solid #ddd;font-size:0.9em;background:#fafafa}
+#thisPageNav p{margin:-1px;padding-left:0.7em;display:flex;justify-content:space-between;font-weight:bold;cursor:pointer;background:#3777ad}
+#thisPageNav p span{display:inline-block;transform:rotate(90deg)}
+#thisPageNav p span.up{transform:rotate(270deg)}
+ul.pageNav{margin:0.4em 0;padding:0}
+ul.pageNav li{list-style-type:none;padding:0.25em;color:#00f}
+ul.pageNav li:hover{background:#def;cursor:pointer}
+ul.pageNav li.indent3{padding-left:1em}
+
+/* Main content area: general appearance */
+
+h1,h2,h3,h4{font-family:FluxRegular, Georgia,Times,"Times New Roman",serif;letter-spacing: 0.02em}
+h1{margin-top:0;color:#3777ad;font-size:2em}
+h2{padding:0.3em;background:#3777ad;color:#fff;font-size:1.3em}
+h3{font-size:1.35em;margin:1em 0 0;line-height:1.0;color:#3777ad}
+h4{margin:1.2em 0 0.75em}
+.noBg{background:none}
+.dRed{color:#e55}
+.dGreen{color:darkGreen}
+.bold{font-weight:bold}
+.inviz{visibility:hidden}
+.blur{filter:blur(3px);-webkit-filter: blur(3px);background:#ddd}
+img{margin:0 auto;max-width:100%;height:auto;display:block}
+img.inline{display:inline}
+.imgCenter{text-align:center}
+.textCenter{text-align:center}
+.alignRt{text-align:right}
+.wordBreakAll{word-break:break-all}
+.displayNone{display:none}
+.displayBlock{display:block}
+.sticky{position:sticky;top:1em}
+.overflowXauto{display:block;height:auto;margin:1em 0;padding:0 2px 0.25em;-webkit-box-sizing:border-box;overflow-x:auto;white-space:nowrap}
+.overflowXauto::-webkit-scrollbar{height:8px}
+.overflowXauto::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 4px rgba(0,0,0,0.3);border-radius:7px}
+.overflowXauto::-webkit-scrollbar-thumb{border-radius:7px;-webkit-box-shadow:inset 0 0 8px rgba(0,0,0,0.5)}
+.overflowXauto::-webkit-scrollbar-thumb:hover{-webkit-box-shadow:inset 0 0 4px rgba(0,0,0,0.8)}
+.highlight{margin:.4em;border:0;padding:0;background-color:#f7fcf6}
+.highlight .k, .highlight .kn{color:#008000;font-weight:bold}
+.highlight .nb, .ansi-green-intense-fg{color:#008000;font-weight:bold}
+.highlight .nc, .highlight .nn, .highlight .fm{color:#00f;font-weight:bold}
+.highlight .ow{color:#a2f;font-weight:bold}
+.ne{color:#d2413a;font-weight:bold}
+.highlight .o{color:#666}
+.highlight .s2{color:#ba2121}
+.ansi-red-intense-fg, .ansi-red-fg{color:#b22b31;font-weight:bold}
+.c1{color:#377;font-style:italic}
+.s1{color:#ba2121}
+.sd{color:#ba2121;font-style:italic}
+.output_stderr{background:#fdd}
+.output_prompt{color:#ba2121;font-weight:bold;letter-spacing:0.1em;font-size:0.95em}
+.output_text pre{margin-left:2em}
+pre,code,kbd,samp{white-space:pre-wrap;word-wrap:break-word}
+mjx-container{word-wrap:break-word}
+pre{font-size:1.15em;padding:0.3em}
+code{font-size:1.25em;background-color:#f2f5f1}
+pre code{font-size:1em;background-color:#fff}
+h2 code{color:#000}
+table{border-collapse:collapse;white-space:normal}
+table+table{margin:1.5em 0}
+table td{border:1px solid #999;padding:0.3em;vertical-align:top}
+table th{vertical-align:top;padding:0.3em}
+table.col1Center td:first-child{text-align:center}
+table.brdrNone{border:none}
+
+/* Live course ads */
+
+.crsAd{margin:2em 7%;border:1px solid #3777ad;border-radius:0.5em;font-size:0.9em;background:#f5ffff}
+p.adHd{margin:-1px -1px 0;background:#14448b;border-top-left-radius:0.5em;border-top-right-radius:0.5em;color:#fff;padding:0.3em;font-weight:bold}
+.flx{display:flex}
+.crsAd div{margin:0 0.5em}
+.crsAd .flx:first-child div:first-child{min-width:110px;padding-top:0.5em}
+.crsAd div p:first-child{margin-top:0.5em}
+.kurses div{display:inline-block;width:220px}
+.fixWidth{font-family:monospace}
+
+/* Forms */
+
+input[value="Publish"]{padding:0.5em 1em;background:green;color:#fff;font-weight:bold;border-radius:0.3em;cursor:pointer}
+
+/* Check if old nested divs, tblBorder are gone */
+.border-box-sizing, .code_cell, .rendered, .input, .inner_cell, .input_area{border:3px solid #f0f}
+.tblBorder{border:3px solid #f0f}
+
+/* Footer */
+
+footer a{text-decoration:none}
+#foot_nav li a:hover, #footAbout li a:hover{color:#3777ad;background-color:#bef}
+#foot_nav ul{display:flex;margin-top:1em;width:100%;padding:0 0.5em;justify-content:space-between}
+#foot_nav li:not(:empty){margin:0 0.5em;box-shadow:4px 4px 3px #bbb;border:3px solid #3777ad;border-radius:0.4em;padding:0;list-style-type:none;line-height:1.5em}
+#foot_nav ul li:nth-child(2){text-align:right}
+#foot_nav li a{display:inline-block;height:100%;border-radius:0.2em;padding:0.4em;text-decoration:none;color:#3777ad}
+#footAbout{margin-top:3em;padding:0.5em 0.5em 3em;background:#3777ad;list-style-type:none;columns:2;-webkit-columns:2}
+#footAbout ul{margin:0;padding:0 0.5em;list-style-type:none}
+#footAbout li{padding-bottom:0.75em;break-inside:avoid-column}
+#footAbout li a{color:#fff}
+#toTop{border-radius:0.4em;padding:0.4em;position:fixed;bottom:8px;right:5px;background:#ddd;border:1px solid #777;opacity:0.6;cursor:pointer}
+#toTop p{margin:0;padding:0;font-weight:bold;color:#04447a}
+
+/* @media widths */
+
+@media screen and (max-width:320px){
+	#logoImgs span{white-space:normal;font-size:1.7em}
+}
+
+@media screen and (max-width:450px){
+  #hori_nav li:nth-child(2) span:nth-child(1){display:none}
+  #hori_nav li:nth-child(n+3) span:nth-child(2){display:none}
+}
+
+@media screen and (max-width:699px){
+  header{margin-bottom:1em}
+  #logoImgs span{font-size:1.5em}
+  #logo{height:10vw}
+  #hori_nav li{margin:0.1em 0;padding-left:0.1em;padding-right:0.1em}
+  #verti_nav{border:1px solid #5a8652; padding:0; position:absolute; top:0;left:5%;width:90%; background:#f3f8fb;font-size:1.2em}
+  #vertNavHomeP{font-size:0.8em;padding:0 0.3em}
+  #vertNavHomeP a{text-decoration:none}
+  .verti_nav_ad{padding:0.3em;font-size:0.8em}
+  #verti_nav ol{font-size:0.8em}
+  #vertiImg{display:none}
+  p.navHeading{margin:-1px}
+  #verti_nav ul{padding:0 0.3em}
+  #verti_nav li{border-bottom:1px solid #aaa}
+  .navInviz{display:none}
+  #content{max-width:100%;padding:0 0.25em}
+  h1{margin-bottom:0.5em}
+  #sideBarNonNav{display:none}
+  #liveCrsHead, .verti_nav_ad{display:none}
+}
+
+@media screen and (min-width:700px){
+  #hambarg{display:none}
+  #hambSrch{display:block}
+  #googSrchForm{margin:1em 0 1em auto}
+  #verti_nav p.navHeading:nth-child(n+2){margin-top:2em}
+  #vertNavHomeP{display:none}
+  #newVertiNavDiv{position:sticky;top:1em}
+}
+
+
+/***************************************
+*
+* "On this page" nav (right margin)
+* For desktop only
+* (height:fit-content REQUIRED for sticky on #thisPageNavRight)
+*
+***************************************/
+
+@media screen and (min-width:1000px) and (min-height:500px){
+  #wrapper{max-width:1200px}
+  #verti_nav{width:20%}
+  #content{width:60%}  #thisPageNavRight{width:20%;max-width:250px;margin-left:1em;position:sticky;top:1em;font-size:0.85em}
+  .thisH{background:#bef;color:black}
+  #thisPageNav{display:none}
+}
+@media screen and (max-width:1000px), screen and (max-height:500px) {
+  #thisPageNavRight{display:none}
+}
+
+
+@page {
+  size: A4;
+  margin: 2cm;
+  padding-bottom:5cm;
+}
+@page {
+	  @bottom-left {
+		  content:"Page " counter(page);
+		  border-top:2px solid #3777ad;
+		  font-size:10px
+	  }
+	  @bottom-right {
+		  content:"python-course.eu";
+		  border-top:2px solid #3777ad;
+		  font-size:10px
+	  }
+}
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  #verti_nav, #hori_nav, #googSrchForm,
+  footer,
+  #toTop, #hambarg, #thisPageNav, #thisPageNavRight, .crsAd{display:none}
+  h2, h3, h4{page-break-after:avoid}
+  /*table{break-inside:avoid}*/
+  /*p{break-inside:avoid}  */
+  p > img{break-inside:avoid}
+  #wrapper, #content{width:100%;max-width:100%;display:block}
+  #content{font-family:"Times New Roman", Times, serif;font-size:18px}
+  pre{font-size:16px}
+  code{font-size:16px}
+  pre{margin:1em 0}
+  #logo{max-width:300px;height:50px}
+}
+.frontPage{text-align:center;font-weight:bold;display:flex; align-items:center;justify-content:center;font-family:FluxRegular;color:#3777ad;flex-direction:column}
+.frontPage > span:first-child{font-size:48pt;margin-bottom:1em}
+.frontPage span:nth-child(n+2){font-size:28pt;}
+.frontPage span:nth-child(2){margin-bottom:3em}
+.frontPage span:nth-child(3){margin-bottom:7em}
+.copy{padding:1em;position:relative}
+.copy div{position:absolute;bottom:0;color:#3777ad;}</style>
+
+</head>
+<body>
+<header>
+<div id="logoImgs">
+<span><a href="/">python-course<span>.</span>eu</a></span>
+<span id="logo"></span>
+</div>
+<div id="hambSrch">
+<svg width="25" height="25" id="hambarg" version="1.1" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z" style="fill:#3777ad" />
+</svg>
+<div id="googSrchWrap">
+<form action="/" method="get" id="googSrchForm">
+ <label for="googlebox">Search site:</label>
+ <input type="text" value="" name="query" id="googlebox" placeholder="Search site"/>
+ <input type="submit" id="googleboxButt" value="Go"/>
+</form>
+</div>
+</div>
+<nav id="hori_nav">
+<ul><li><a href="/">Home</a></li><li><a href="/python-tutorial/"><span>Python</span> <span>Tutorial</span></a></li><li class="chosenUnder"><a href="/oop/"><span>OOP</span></a></li><li><a href="/advanced-python/"><span>Advanced</span></a></li><li><a href="/annotations/"><span>Annotations</span></a></li><li><a href="/applications-python/"><span>Applications</span></a></li><li><a href="/numerical-programming/"><span>Numerical</span> <span>Programming</span></a></li><li><a href="/machine-learning/"><span>Machine</span> <span>Learning</span></a></li><li><a href="/tkinter/"><span>Tkinter</span></a></li><li><a href="/projects/"><span>Projects</span></a></li><li><a href="/about/"><span>About</span></a></li> </ul>
+</nav>
+</header><div id="wrapper">
+<nav id="verti_nav" class="navInviz">
+<p class="navHeading" id="liveCrsHead">Python Training Courses</p>
+<div class="verti_nav_ad">
+<p>Live Python classes by highly experienced instructors:</p>
+<p class="textCenter"><a href="/about/live-courses.php"><img class="inline topDn" width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a><br /><a href="/about/live-courses.php">Instructor-led training courses by Bernd Klein</a></p>
+</div>
+<p id="inThisChapHead" class="navHeading">In this <strong>Object Oriented Programming</strong> chapter</p>
+<ol id="vertiNavOL" start="0">
+<li><a href="/oop/">Intro to Object Oriented Programming</a></li>
+<li><a href="/oop/object-oriented-programming.php">Object Oriented Programming</a></li>
+<li><a href="/oop/class-instance-attributes.php">Class vs. Instance Attributes</a></li>
+<li><a href="/oop/properties-vs-getters-and-setters.php">Properties vs. Getters and Setters</a></li>
+<li><a href="/oop/creating-immutable-classes-in-python.php">Creating Immutable Classes In Python</a></li>
+<li><a href="/oop/dataclasses-in-python.php">Dataclasses In Python</a></li>
+<li><a href="/oop/implementing-a-custom-property-class.php">Implementing a Custom Property Class</a></li>
+<li><a href="/oop/magic-methods.php">Magic Methods</a></li>
+<li><a href="/oop/introduction-to-descriptors.php">Introduction to Descriptors</a></li>
+<li class="chosen">Inheritance</li>
+<li><a href="/oop/multiple-inheritance.php">Multiple Inheritance</a></li>
+<li><a href="/oop/multiple-inheritance-example.php">Multiple Inheritance: Example</a></li>
+<li><a href="/oop/callable-instances-classes.php">Callable Instances of Classes</a></li>
+<li><a href="/oop/slots-avoiding-dynamically-created-attributes.php">Slots: Avoiding Dynamically Created Attributes</a></li>
+<li><a href="/oop/polynomial-class.php">Polynomial Class</a></li>
+<li><a href="/oop/dynamically-creating-classes-with-type.php">Dynamically Creating Classes with type</a></li>
+<li><a href="/oop/road-to-metaclasses.php">Road to Metaclasses</a></li>
+<li><a href="/oop/metaclasses.php">Metaclasses</a></li>
+<li><a href="/oop/count-function-calls-with-help-metaclass.php">Count Function calls with the help of a Metaclass</a></li>
+<li><a href="/oop/the-abc-of-abstract-base-classes.php">The 'ABC' of Abstract Base Classes</a></li>
+</ol>
+<p id="vertiImg"><img src="/images/oop/dna130.png" width="130" height="44" alt="dna" loading="lazy" /></p>
+<div id="sideBarNonNav">
+
+<p class="navHeading">Classroom Training Courses</p>
+<p>This website contains a free and extensive online tutorial by Bernd Klein, using material from his classroom Python training courses.</p>
+<p>If you are interested in an instructor-led classroom training course, have a look at these Python classes:</p>
+<p class="textCenter"><a href="/about/live-courses.php"><img class="inline topDn" width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a><br /><a href="/about/live-courses.php">Instructor-led training course by Bernd Klein at Bodenseo</a></p>
+<p><small>Image ©kabliczech - Fotolia.com</small></p>
+
+<p class="navHeading">Page author</p>
+<div id="auth">
+<p>This page was written by <strong>Bernd Klein</strong>.</p>
+<p>Bernd is an experienced computer scientist with a history of working in the education management industry and is skilled in Python, Perl, Computer Science, and C++. He has a Dipl.-Informatiker / Master Degree focused in Computer Science from Saarland University.</p>
+<ul> 
+<li><a href="https://www.facebook.com/bernd.klein.9256">Bernd Klein on Facebook</a></li>
+<li><a href="https://www.linkedin.com/in/bernd-klein-22ab3720/">Bernd Klein on LinkedIn</a></li>
+<li><a href="https://www.facebook.com/Bernd.C.Klein">python-course on Facebook</a></li>
+</ul></div>
+<p class="navHeading">PDF version</p>
+<p><a href="/about/pdf-version-of-this-site.php"><img src="/images/common/PDF_150w.webp" width="150" height="207" alt="PDF versions of this site" loading="lazy" /></a>
+<p class="textCenter"><img class="inline topDn" width="20" height="25" src="/images/common/pdf_logo_20w.webp" alt="PDF logo" loading="lazy" /> <a href="/about/pdf-version-of-this-site.php">PDF version of this site</a></p>
+<p class="navHeading">Help Needed</p>
+<p>This website is free of annoying ads. We want to keep it like this. You can help with your donation:</p>
+<form class="textCenter" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick" />
+<input type="hidden" name="hosted_button_id" value="4CJF5S9M4DVEW" />
+<input type="hidden" name="lc" value="en_US">
+<input type="image" src="/images/common/btn_donate_SM.gif" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+</form>
+<p class="textCenter"><a  rel="nofollow" href="/about/donate-to-python-course-eu.php">The need for donations</a></p>
+</div>
+</nav> <!-- verti_nav -->
+<article id="content">
+<h1 id="h1-Inheritance">9. Inheritance</h1>
+<p><small>By <strong>Bernd Klein</strong>. Last modified: 04 Dec 2023.</small></p>
+<div id="thisPageNav"><p class="navHeading">On this page <span>➤</span></p></div>
+<h2 id="Introduction-and-Definitions">Introduction and Definitions</h2>
+<p><img alt="Inheritance as DNA" height="220" src="/images/oop/dna2_300w.webp" width="300"/></p>
+<p>No object-oriented programming language would be worthy to look at or use, if it didn't support inheritance. Inheritance was invented in 1969 for Simula. Python not only supports inheritance but multiple inheritance as well. Generally speaking, inheritance is the mechanism  of deriving new classes from existing ones. By doing this, we get a hierarchy of classes. In most class-based object-oriented languages, an object created through inheritance (a "child object") acquires all, - though there are exceptions in some programming languages, - of the properties and behaviors of the parent object.</p>
+<p>Inheritance allows programmers to create classes that are built upon existing classes, and this enables a class created through inheritance to inherit the attributes and methods of the parent class. This means that inheritance supports code reusability. The methods or generally speaking the software inherited by a subclass is considered to be reused in the subclass. The relationships of objects or classes through inheritance give rise to a directed graph.</p>
+<p>The class from which a class inherits is called the parent or superclass. A class which inherits from a superclass is called a subclass, also called heir class or child class. Superclasses are sometimes called ancestors as well. There exists a hierarchical relationship between classes. It's similar to relationships or categorizations that we know from real life. Think about vehicles, for example. Bikes, cars, buses and trucks are vehicles. Pick-ups, vans, sports cars, convertibles and estate cars are all cars and by being cars they are vehicles as well. We could implement a vehicle class in Python, which might have methods like accelerate and brake. Cars, Buses and Trucks and Bikes can be implemented as subclasses which will inherit these methods from vehicle.</p>
+<p><img alt="Classification of vehicles" height="201" loading="lazy" src="/images/oop/vehicles_classification_500w.webp" width="500"/></p>
+<div class="crsAd">
+		<p class="adHd">Live Python training</p>
+		  <div class="flx">
+		   <div>
+			<a href="/about/live-courses.php"><img width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a>
+		   </div>
+		   <div>
+			<p>Enjoying this page? We offer <strong>live Python training courses</strong> covering the content of this site.</p>
+			<p>See: <a href="/about/live-courses.php">Live Python courses overview</a></p>
+		   </div>
+		  </div><p class="textCenter"><a href="https://www.bodenseo.com/course_enrolment.php">Enrol here</a></p>
+</div>
+
+<h2 id="Syntax-of-Inheritance-in-Python">Syntax of Inheritance in Python</h2>
+<p>The syntax for a subclass definition looks like this:</p>
+<pre>
+<code>class DerivedClassName(BaseClassName):
+    pass</code>
+</pre>
+<p>Instead of the <code>pass</code> statement, there will be methods and attributes like in all other classes. The name BaseClassName must be defined in a scope containing the derived class definition.</p>
+<p>Now we are ready for a simple inheritance example with Python code.</p>
+<h2 id="Simple-Inheritance-Example">Simple Inheritance Example</h2>
+<p>We will stick with our beloved  robots or better <code>Robot</code> class from the previous chapters of our Python tutorial to show how the principle of inheritance works. We will define a class <code>PhysicianRobot</code>, which inherits from <code>Robot</code>.</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Hi, I am "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+<span class="k">class</span> <span class="nc">PhysicianRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="s2">"Marvin"</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"James"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+<span class="n">y</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+&lt;__main__.Robot object at 0x7fd0080b3ba8&gt; &lt;class '__main__.Robot'&gt;
+&lt;__main__.PhysicianRobot object at 0x7fd0080b3b70&gt; &lt;class '__main__.PhysicianRobot'&gt;
+Hi, I am James
+</pre>
+</div>
+</div>
+<p><img alt="Marvin and James" height="369" loading="lazy" src="/images/oop/marvin_and_james.webp" width="335"/></p>
+<p>If you look at the code of our <code>PhysicianRobot</code> class, you can see that we haven't defined any attributes or methods in this class. As the class <code>PhysicianRobot</code> is a subclass of <code>Robot</code>, it inherits, in this case, both the method <code>__init__</code> and <code>say_hi</code>. Inheriting these methods means that we can use them as if they were defined in the <code>PhysicianRobot</code> class. When we create an instance of <code>PhysicianRobot</code>, the <code>__init__</code> function will also create a name attribute. We can  apply the <code>say_hi</code> method to the <code>PhysisicianRobot</code> object <code>y</code>, as we can see in the output from the code above.</p>
+<div class="crsAd">
+		<p class="adHd">Live Python training</p>
+		  <div class="flx">
+		   <div>
+			<a href="/about/live-courses.php"><img width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a>
+		   </div>
+		   <div>
+			<p>Enjoying this page? We offer <strong>live Python training courses</strong> covering the content of this site.</p>
+			<p>See: <a href="/about/live-courses.php">Live Python courses overview</a></p>
+		   </div>
+		  </div><p class="textCenter bold">Upcoming online Courses</p>
+<div class="kurses">
+<div>
+<p><a href="https://www.bodenseo.com/course/python_training_course_intensive.html">Intensive Advanced Course</a><br><p class="fixWidth">
+</p>
+</div>
+<div>
+<p><a href="https://www.bodenseo.com/course/python_oop.html">Object Oriented Programming with Python</a><br><p class="fixWidth">
+</p>
+</div>
+</div>
+<p class="textCenter"><a href="https://www.bodenseo.com/course_enrolment.php">Enrol here</a></p>
+</div>
+
+<h2 id="Difference-between-type-and-isinstance">Difference between <code>type</code> and <code>isinstance</code></h2>
+<p>You should also pay attention to the following facts, which we pointed out in other sections of our Python tutorial as well. People frequently ask where the difference between checking the type via the <code>type</code> function or the function <code>isinstance</code> is lies.
+The difference can be seen in the following code. We see that <code>isinstance</code> returns <code>True</code> if we compare an object either with the class it belongs to or with the superclass. Whereas the equality operator only returns <code>True</code>, if we compare an object with its own class.</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="s2">"Marvin"</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"James"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Robot</span><span class="p">),</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">Robot</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">PhysicianRobot</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">PhysicianRobot</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">Robot</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">PhysicianRobot</span><span class="p">)</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+True True
+False
+True
+False True
+</pre>
+</div>
+</div>
+<p>This is even true for arbitrary ancestors of the class in the inheritance line:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">class</span> <span class="nc">A</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+True
+</pre>
+</div>
+</div>
+<p>Now it should be clear, why <a href="https://legacy.python.org/dev/peps/pep-0008/#programming-recommendations">PEP 8</a>, the official  Style Guide for Python code, says: "Object type comparisons should always use isinstance() instead of comparing types directly."</p>
+<h2 id="Overriding">Overriding</h2>
+<p>Let us get back to our new <code>PhysicianRobot</code> class.
+Imagine now that an instance of a <code>PhysicianRobot</code> should say hi in a different way. In this case, we have to redefine the method <code>say_hi</code> inside of the subclass <code>PhysicianRobot</code>:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Hi, I am "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+<span class="k">class</span> <span class="nc">PhysicianRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Everything will be okay! "</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">" takes care of you!"</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"James"</span><span class="p">)</span>
+<span class="n">y</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+Everything will be okay! 
+James takes care of you!
+</pre>
+</div>
+</div>
+<p>What we have done in the previous example is called overriding. A method of a parent class gets overridden by simply defining a method with the same name in the child class.</p>
+<p>If a method is overridden in a class, the original method can still be accessed, but we have to do it by calling the method directly with the class name, i.e. <code>Robot.say_hi(y)</code>. We demonstrate this in the following code:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="n">y</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"Doc James"</span><span class="p">)</span>
+<span class="n">y</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"... and now the 'traditional' robot way of saying hi :-)"</span><span class="p">)</span>
+<span class="n">Robot</span><span class="o">.</span><span class="n">say_hi</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+Everything will be okay! 
+Doc James takes care of you!
+... and now the 'traditional' robot way of saying hi :-)
+Hi, I am Doc James
+</pre>
+</div>
+</div>
+<p>We have seen that an inherited class can inherit and override methods from the superclass. Besides this a subclass often needs additional methods with additional functionalities, which do not  exist in the superclass. An instance of the <code>PhysicianRobot</code> class will need for example the method <code>heal</code> so that the physician can do a proper job.
+We will also add an attribute <code>health_level</code> to the <code>Robot</code> class, which can take a value between <code>0</code> and <code>1</code>. The robots will 'come to live' with a random value between <code>0</code> and <code>1</code>. If the <code>health_level</code> of a <code>Robot</code> is below 0.8, it will need a doctor. We write a method <code>needs_a_doctor</code> which returns <code>True</code> if the value is below <code>0.8</code> and <code>False</code> otherwise. The 'healing' in the <code>heal</code> method is done by setting the <code>health_level</code> to a random value between the old <code>health_level</code> and 1. This value is calculated by the uniform function of the random module.</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">class</span> <span class="nc">Robot</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">health_level</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> 
+        
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Hi, I am "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">needs_a_doctor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">health_level</span> <span class="o">&lt;</span> <span class="mf">0.8</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+<span class="k">class</span> <span class="nc">PhysicianRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Everything will be okay! "</span><span class="p">)</span> 
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">" takes care of you!"</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">heal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robo</span><span class="p">):</span>
+        <span class="n">robo</span><span class="o">.</span><span class="n">health_level</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">robo</span><span class="o">.</span><span class="n">health_level</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">robo</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">" has been healed by "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">"!"</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"Dr. Frankenstein"</span><span class="p">)</span>        
+
+<span class="n">rob_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="s2">"Marvin"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">needs_a_doctor</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"health_level of "</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">" before healing: "</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">health_level</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">heal</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"health_level of "</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">" after healing: "</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">health_level</span><span class="p">)</span>
+    <span class="n">rob_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">health_level</span><span class="p">))</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="n">rob_list</span><span class="p">)</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+health_level of Marvin0 before healing:  0.5562005305000016
+Marvin0 has been healed by Dr. Frankenstein!
+health_level of Marvin0 after healing:  0.7807651150204282
+health_level of Marvin1 before healing:  0.40571527448692757
+Marvin1 has been healed by Dr. Frankenstein!
+health_level of Marvin1 after healing:  0.4160992532325318
+health_level of Marvin2 before healing:  0.3786957462635925
+Marvin2 has been healed by Dr. Frankenstein!
+health_level of Marvin2 after healing:  0.5474124864506639
+health_level of Marvin3 before healing:  0.6384666796845331
+Marvin3 has been healed by Dr. Frankenstein!
+health_level of Marvin3 after healing:  0.6986491928780778
+health_level of Marvin4 before healing:  0.5983126049766974
+Marvin4 has been healed by Dr. Frankenstein!
+health_level of Marvin4 after healing:  0.6988801787833587
+[('Marvin0', 0.7807651150204282), ('Marvin1', 0.4160992532325318), ('Marvin2', 0.5474124864506639), ('Marvin3', 0.6986491928780778), ('Marvin4', 0.6988801787833587)]
+</pre>
+</div>
+</div>
+<p>When we override a method, we sometimes want to reuse the method of the parent class and at some new stuff. To demonstrate this, we will write a new version of the PhysicianRobot. <code>say_hi</code> should return the text from the Robot class version plus the text " and I am a physician!"</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">class</span> <span class="nc">PhysicianRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Robot</span><span class="o">.</span><span class="n">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"and I am a physician!"</span><span class="p">)</span>
+
+        
+<span class="n">doc</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"Dr. Frankenstein"</span><span class="p">)</span>      
+<span class="n">doc</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+Hi, I am Dr. Frankenstein
+and I am a physician!
+</pre>
+</div>
+</div>
+<p>We don't want to write redundant code and therefore we called <code>Robot.say_hi(self)</code>. We could also use the <code>super</code> function:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">class</span> <span class="nc">PhysicianRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">say_hi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"and I am a physician!"</span><span class="p">)</span>
+
+        
+<span class="n">doc</span> <span class="o">=</span> <span class="n">PhysicianRobot</span><span class="p">(</span><span class="s2">"Dr. Frankenstein"</span><span class="p">)</span>      
+<span class="n">doc</span><span class="o">.</span><span class="n">say_hi</span><span class="p">()</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+Hi, I am Dr. Frankenstein
+and I am a physician!
+</pre>
+</div>
+</div>
+<p><code>super</code> is not realls necessary in this case. One could argue that it makes the code more maintainable, because we could change the name of the parent class, but this is seldom done anyway in existing classes. The real benefit of <code>super</code> shows when we use it with multiple inheritance.</p>
+<div class="crsAd">
+		<p class="adHd">Live Python training</p>
+		  <div class="flx">
+		   <div>
+			<a href="/about/live-courses.php"><img width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a>
+		   </div>
+		   <div>
+			<p>Enjoying this page? We offer <strong>live Python training courses</strong> covering the content of this site.</p>
+			<p>See: <a href="/about/live-courses.php">Live Python courses overview</a></p>
+		   </div>
+		  </div><p class="textCenter"><a href="https://www.bodenseo.com/course_enrolment.php">Enrol here</a></p>
+</div>
+
+<h2 id="Distinction-between-Overwriting-Overloading-and-Overriding">Distinction between Overwriting, Overloading and Overriding</h2>
+<h3 id="Overwriting">Overwriting</h3>
+<p>If we overwrite a function, the original function will be gone. The function will be redefined. This process has nothing to do with object orientation or inheritance.</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">42</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># f will be overwritten (or redefined) in the following:</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">43</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+45
+46
+</pre>
+</div>
+</div>
+<h3 id="Overloading">Overloading</h3>
+<p>This subchapter will be only interesting for C++ and Java programmers who want to know how overloading can be accomplished in Python. Those who do not know about overloading will not miss it!</p>
+<p>In the context of object-oriented programming, you might have heard about "overloading" as well. Even though "overloading" is not directly connected to OOP. Overloading is the ability to define a function with the same name multiple times. The definitions are different concerning the number of parameters and types of the parameters. It's the ability of one function to perform different tasks, depending on the number of parameters or the types of the parameters. We cannot overload functions like this in Python, but it is not necessary either.</p>
+<p>This course is, however, not about C++ and we have so far avoided using any C++ code. We want to make an exception now, so that you can see, how overloading works in C++.</p>
+<br/>
+<pre>
+#include <iostream>
+#include <cstdlib>
+<p>using namespace std;</p>
+<p>int successor(int number) {
+return number + 1;
+}</p>
+<p>double successor(double number) {
+return number + 1;
+}</p>
+<p>int main() {</p>
+<pre>
+<code>cout &lt;&lt; successor(10) &lt;&lt; endl;
+cout &lt;&lt; successor(10.3) &lt;&lt; endl;
+
+return 0;</code>
+</pre>
+<p>}</p>
+</cstdlib></iostream>
+</pre>
+<p>We defined the successor function twice: One time for int and the other time with float as a Parameter. In Python the function can be defined like this, as you will know for sure:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">def</span> <span class="nf">successor</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre>
+</div>
+</div>
+<p>As x is only a reference to an object, the Python function successor can be called with every object, even though it will create exceptions with many types. But it will work with int and float values!</p>
+<p>Having a function with a different number of parameters is another way of function overloading. The following C++ program shows such an example. The function f can be called with either one or two integer arguments:</p>
+<pre>
+ #include <iostream>
+using namespace std;
+
+
+int f(int n);
+int f(int n, int m);
+
+int main() {
+    
+    cout &lt;&lt; "f(3): " &lt;&lt; f(3) &lt;&lt; endl;
+    cout &lt;&lt; "f(3, 4): " &lt;&lt; f(3, 4) &lt;&lt; endl;
+    return 0;
+}
+
+int f(int n) {
+    return n + 42;
+}
+int f(int n, int m) {
+    return n + m + 42; 
+}
+    
+</iostream>
+</pre>
+<p>This doesn't work in Python, as we can see in the following example. The second definition of f with two parameters redefines or overrides the first definition with one argument. Overriding means that the first definition is not available anymore.</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">42</span>
+ 
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">42</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+49
+</pre>
+</div>
+</div>
+<p>If you call f with only one parameter, you will raise an exception:</p>
+<pre>
+f(3)
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-8-1bff2c73920e> in <module>
+----&gt; 1 f(3)
+
+TypeError: f() missing 1 required positional argument: 'm'
+
+</module></ipython-input-8-1bff2c73920e>
+</pre>
+<p>Yet, it is possible to simulate the overloading behaviour of C++ in Python in this case with a default parameter:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span><span class="mi">42</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">42</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+45 46
+</pre>
+</div>
+</div>
+<p>The * operator can be used as a more general approach for a family of functions with 1, 2, 3, or even more parameters:</p>
+<div class="cell">
+<div class="highlight">
+<pre>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">42</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">42</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre>
+</div>
+<h3 class="output_prompt">OUTPUT:</h3>
+<div class="output_text">
+<pre>
+45 4 50
+</pre>
+</div>
+</div>
+<h3 id="Overriding">Overriding</h3>
+<p>Overriding is already explained above!</p><div class="crsAd">
+		<p class="adHd">Live Python training</p>
+		  <div class="flx">
+		   <div>
+			<a href="/about/live-courses.php"><img width="150" height="109" src="/images/common/classroom_training_courses.jpg" alt="instructor-led training course" loading="lazy" /></a>
+		   </div>
+		   <div>
+			<p>Enjoying this page? We offer <strong>live Python training courses</strong> covering the content of this site.</p>
+			<p>See: <a href="/about/live-courses.php">Live Python courses overview</a></p>
+		   </div>
+		  </div><p class="textCenter bold">Upcoming online Courses</p>
+<div class="kurses">
+<div>
+<p><a href="https://www.bodenseo.com/course/python_training_course_intensive.html">Intensive Advanced Course</a><br><p class="fixWidth">
+</p>
+</div>
+<div>
+<p><a href="https://www.bodenseo.com/course/python_oop.html">Object Oriented Programming with Python</a><br><p class="fixWidth">
+</p>
+</div>
+</div>
+<p class="textCenter"><a href="https://www.bodenseo.com/course_enrolment.php">Enrol here</a></p>
+</div>
+</article>
+<div id="thisPageNavRight"><p class="navHeading">On this page </p></div>
+</div> <!-- wrapper -->
+<footer>
+<nav id="foot_nav">
+<ul>
+<li><a href="/oop/introduction-to-descriptors.php">&laquo; PREVIOUS: 8. Introduction to Descriptors</a></li>
+<li><a href="/oop/multiple-inheritance.php">NEXT: 10. Multiple Inheritance &raquo;</a></li>
+</ul>
+</nav>
+
+<nav id="footAbout">
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/about/">About this site</a></li>
+<li><a href="/about/live-courses.php">Live courses</a></li>
+<li><a href="/about/contact.php">Contact</a></li>
+<li><a href="/about/donate-to-python-course-eu.php">Donate to python-course.eu</a></li>
+<li><a href="/about/news.php">News</a></li>
+<li><a href="/about/sitemap.php">Sitemap</a></li>
+<li><a href="/about/pdf-version-of-this-site.php">PDF version of this site</a></li>
+<li><a href="/about/data-protection-declaration.php">Data Protection Declaration</a></li>
+</ul>
+</nav>
+
+<div id="toTop">
+<p>top</p>
+</div>
+
+</footer>
+
+<script>
+
+var hambarg = gebi("hambarg");
+var logoImgs = gebi('logoImgs');
+var googSrchForm = gebi('googSrchForm');
+var wrapper = gebi("wrapper");
+var verti_nav = gebi("verti_nav");
+var content = gebi("content");
+var header = document.querySelector('header');
+var browserWidth = window.innerWidth;
+
+///////////////////////////////////
+//
+// Replace overflowTemp class with overflowXauto
+// to avoid overly-wide page before MathJax fires
+// e.g. /advanced/decorators-decoration.php
+//
+///////////////////////////////////
+
+if(browserWidth < 600) {
+	var overflowTemps = document.querySelectorAll('.overflowTemp');
+	for(var i=0;i<overflowTemps.length;i++) {
+		overflowTemps[i].classList.remove('overflowTemp');
+		overflowTemps[i].classList.add('overflowXauto');
+	}
+}
+
+///////////////////////////////////
+//
+// Add overflowXauto to tables and MathJax for narrow screens
+//
+///////////////////////////////////
+
+function addOverflowXauto() {
+
+	var eles = document.querySelectorAll("table, mjx-math");
+	for(i=0;i<eles.length;i++) {
+		var thisEleWidth = eles[i].offsetWidth;
+		if( gebi("content") ) {
+			var contentWidth = gebi("content").clientWidth;
+			if(thisEleWidth > contentWidth && !eles[i].parentNode.classList.contains('overflowXauto') ) {
+				var eleWrap = document.createElement('div');
+				eleWrap.classList.add('overflowXauto');
+				if(eles[i].tagName == "MJX-MATH" && (eles[i].parentNode.parentNode.tagName == "P" || eles[i].parentNode.parentNode.tagName == "DIV") ) {
+					eles[i].parentNode.parentNode.classList.add("overflowXauto");
+				} else {
+					eles[i].parentNode.insertBefore(eleWrap, eles[i]);
+					eleWrap.appendChild(eles[i]);
+				}
+			}
+		}
+	}
+}
+addOverflowXauto();
+
+///////////////////////////////////
+//
+// Activate/deactivate hamburger menu
+//
+///////////////////////////////////
+
+document.querySelector('body').addEventListener("click", function(e) {
+
+	if( verti_nav && content ) {
+		if(
+			(e.target.id == "hambarg" || e.target.parentNode.id == "hambarg")
+			) {
+			wrapper.appendChild(verti_nav);
+			verti_nav.classList.toggle('navInviz');
+			logoImgs.classList.toggle('blur');
+			googSrchForm.classList.toggle('blur');
+			content.classList.toggle('blur');
+		} else {
+			verti_nav.classList.add('navInviz');
+			logoImgs.classList.remove('blur');
+			googSrchForm.classList.remove('blur');
+			content.classList.remove('blur');
+		}
+	}
+});
+ 
+///////////////////////////////////
+//
+// Google search box
+//
+///////////////////////////////////
+
+var googleboxButt = gebi("googleboxButt");
+if(googleboxButt) {
+	googleboxButt.addEventListener("click", function(e) {
+		e.preventDefault();
+		var srchStr=gebi('googlebox').value;
+		var srchEnc = encodeURIComponent(srchStr);
+		var googUrl="http://www.google.com/search?hl=en&source=hp&q=site:python-course.eu " + srchEnc + "&amp;aq=f&amp;oq=&amp;aqi=";
+		window.location = googUrl;
+	});
+}
+
+///////////////////////////////////
+//
+// Create sticky verti_nav
+// Goes under existing chapter nav, ads, author, etc
+//
+///////////////////////////////////
+
+function createStickyVertiNav() {
+	if(hambarg) {
+		var hambargDisplay = window.getComputedStyle(document.querySelector('#hambarg')).display;
+		if( gebi("sideBarNonNav") && hambargDisplay == "none") {
+			var sideBarNonNav = gebi("sideBarNonNav");
+			sideBarNonNavBBox = sideBarNonNav.getBoundingClientRect();
+			browserWidth = window.innerWidth;
+			browserHeight = window.innerHeight;
+			var contentBottom = gebi("content").getBoundingClientRect().bottom;
+			var vertiNavOLClone = gebi("vertiNavOLClone");
+			var lastElement = document.querySelector('article').lastElementChild;
+			var lastElementBbox = lastElement.getBoundingClientRect();
+			var page_ordREM = 9;
+			var vertiNavOL = gebi("vertiNavOL");
+			if(vertiNavOL) {
+				var vertiNavOLHeight = vertiNavOL.getBoundingClientRect().height;
+				if( !gebi("newVertiNavDiv") // Do once only
+					&& !vertiNavOLClone // Do once only
+					&& browserWidth > 700 // Desktop only
+					&& lastElementBbox.bottom > sideBarNonNavBBox.bottom + vertiNavOLHeight
+					&& page_ordREM > 0
+					) {
+					var newVertiNavDiv = document.createElement("div");
+					newVertiNavDiv.id = "newVertiNavDiv";
+					verti_nav.appendChild(newVertiNavDiv);
+					var inThisChapHead = gebi("inThisChapHead");
+					if(inThisChapHead) {
+						var clonedInThisChapHead = inThisChapHead.cloneNode(true);
+						clonedInThisChapHead.id = "inThisChapHeadClone";
+						newVertiNavDiv.appendChild(clonedInThisChapHead);
+						var clonedvertiNavOL = vertiNavOL.cloneNode(true);
+						clonedvertiNavOL.id = "vertiNavOLClone";
+						newVertiNavDiv.appendChild(clonedvertiNavOL);
+					}
+				}
+			}
+		}
+	}
+}
+createStickyVertiNav();
+
+///////////////////////////////////
+//
+// "On This Page" menu
+//
+///////////////////////////////////
+
+var thisPageNav = document.querySelector("#thisPageNav");
+var thisPageNavRight = document.querySelector("#thisPageNavRight");
+var hsTopArr;
+var verti_nav = gebi("verti_nav");
+var browserWidth = window.innerWidth;
+var browserHeight = window.innerHeight;
+
+if(thisPageNav || thisPageNavRight) {
+	var hs = document.querySelectorAll("h2, h3:not(.output_prompt), h4:not(.output_prompt), h5, h6");
+
+	if( hs.length > 0) {
+		var ul = document.createElement("ul");
+		ul.classList.add("pageNav");
+		hs.forEach(function(h) {
+		  if(h.innerHTML.replace(" &nbsp;", "") != "OUTPUT:") {
+			  var li = document.createElement("li");
+			  li.innerHTML = h.innerHTML;
+			  if(h.hasAttribute("id") ) {
+				  li.id = h.id+"_nav";
+			  }
+			  li.classList.add(h.tagName.replace("H","indent"));
+			  ul.appendChild(li);
+			  if(!h.id) {
+				 h.id = h.innerHTML.replace(/\s+/g, '-');
+			  }
+			  if(h.id) {
+				  li.addEventListener("click", function() {
+					gebi(h.id).scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+				  });
+			  }
+			}
+		});
+	}
+}
+
+var addedEventListener = false;
+
+function doPageNav() {
+	browserWidth = window.innerWidth;
+	browserHeight = window.innerHeight;
+
+	function toggleThisPageUL() {
+		ul.classList.toggle("displayNone");
+		this.querySelector('span').classList.toggle('up');
+	}
+	if(thisPageNav || thisPageNavRight) {
+		if( hs.length === 0) {
+			if(thisPageNav) {
+				thisPageNav.style.visibility = "hidden";
+			}
+			if(thisPageNavRight) {
+				thisPageNavRight.style.visibility = "hidden";
+			}
+		}
+
+		if(thisPageNav) {
+			thisPageNav.querySelector(".navHeading").removeEventListener("click", toggleThisPageUL, true);
+		}
+
+		if(thisPageNavRight && browserWidth > 1000 && browserHeight > 500) {
+			if(ul) {
+				ul.classList.remove("displayNone");
+				thisPageNavRight.appendChild(ul);
+				function handler(entries, observer_nav) {
+					entries.forEach(function(entry) {
+						if(thisPageNavRight && entry.isIntersecting){
+							document.querySelector('.pageNav').querySelectorAll('li').forEach(function(li) { li.classList.remove("thisH") });
+							if(gebi(entry.target.id+"_nav")) {
+								gebi(entry.target.id+"_nav").classList.add("thisH");
+							} else {
+								console.log("entry.target.id+_nav DNE");
+							}
+						}
+					});
+				}
+				var observer_nav = new IntersectionObserver(handler, {
+					root: null,
+					rootMargin: '200px 0px -'+(browserHeight-200)+'px 0px',
+					threshold: 1
+				});
+				hs.forEach(function(h) {observer_nav.observe(h) });
+			}
+
+		} else {
+			if( ul && thisPageNav.querySelector(".pageNav") == null) {
+				ul.classList.add("displayNone");
+				thisPageNav.appendChild(ul);
+				if( !addedEventListener) {
+					thisPageNav.querySelector(".navHeading").addEventListener("click", toggleThisPageUL, true);
+					addedEventListener = true;
+				}
+			}
+
+		}
+	}
+}
+doPageNav();
+
+///////////////////////////////////
+//
+// Scroll to top
+//
+///////////////////////////////////
+
+let observer_totop = new IntersectionObserver(handler_totop, {
+	root: null,
+	rootMargin: '500px 0px',
+	threshold: 0
+});
+
+var toTop = document.querySelector('#toTop');
+if(toTop) {
+	toTop.addEventListener("click", function(){
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		});
+	});
+}
+function handler_totop(entries, observer_totop) {
+	for (entry of entries) {
+		if(entry.isIntersecting) {
+			toTop.classList.add('displayNone');
+		} else {
+			toTop.classList.remove('displayNone');
+		}
+	}
+}
+if(document.querySelector('header')) {
+	observer_totop.observe(document.querySelector('header'));
+}
+
+//////////////////////////
+//
+// On resize
+//
+//////////////////////////
+
+window.onresize = function() {
+	browserWidth = window.innerWidth;
+	browserHeight = window.innerHeight;
+	addOverflowXauto();
+	if( verti_nav && content ) {
+		if(browserWidth > 700) {
+			wrapper.insertBefore(verti_nav, content);
+			verti_nav.classList.add('navInviz');
+			logoImgs.classList.remove('blur');
+			googSrchForm.classList.remove('blur');
+			content.classList.remove('blur');
+		}
+	}
+	if(typeof doPageNav === "function" ) {
+		doPageNav();
+	}
+}
+</script>
+
+
+</body>
+</html>
