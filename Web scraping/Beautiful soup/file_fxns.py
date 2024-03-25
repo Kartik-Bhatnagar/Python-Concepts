@@ -17,8 +17,3 @@ def getDataDirectoryPath():
         _setDataDirectory(dir_name)
         return dir_path
 
-def fetchAndSave(url,dir_path,file_name,user_proxy):
-    r= requests.get(url,proxies=user_proxy)
-    file_path =  _getFilePath(dir_path,file_name)
-    with open(file_path,"w",encoding="utf-8") as file:
-        file.write(r.text)
