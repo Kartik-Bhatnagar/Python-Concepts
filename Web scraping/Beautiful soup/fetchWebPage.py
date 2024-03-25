@@ -40,6 +40,7 @@ class scrapping_webpage:
         except Exception as e:
             print(e)
             self._fetchAndSave()
+            
 
 
 
