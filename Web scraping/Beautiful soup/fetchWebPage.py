@@ -15,6 +15,9 @@ class scrapping_webpage:
     def setHtmlDataFilePath(self,dir_path,file_name):
         self.html_file_path =  file_fxns._getFilePath(dir_path,file_name)
 
+    def getHtmlDataFilePath(self):
+        return self.html_file_path
+
     def _fetchAndSave_withProxy(self,user_proxy):
         r= requests.get(self.url,proxies=user_proxy)        
         #file path
