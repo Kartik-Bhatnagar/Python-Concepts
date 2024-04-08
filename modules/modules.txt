@@ -1,0 +1,8 @@
+Advantages of Modularity:
+    Scope
+    Reusability
+    Simplicity
+
+Types of modules:
+    Build-in modules
+    User-defined modules
