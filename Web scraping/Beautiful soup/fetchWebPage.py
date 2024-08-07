@@ -8,9 +8,9 @@ import ip_fxns
 import file_fxns
 class scrapping_webpage:
 
-    def __init__(self,url) -> None:
+    def __init__(self,url,file_name="data.html") -> None:
         self.url = url
-        self.html_file_path =  file_fxns._getFilePath(os.getcwd(),"data.html") # by default
+        self.html_file_path =  file_fxns._getFilePath(file_fxns.getDataDirectoryPath(),file_name) # by default
 
     def setHtmlDataFilePath(self,dir_path,file_name):
         self.html_file_path =  file_fxns._getFilePath(dir_path,file_name)
@@ -43,6 +43,13 @@ class scrapping_webpage:
         except Exception as e:
             print(e)
             self._fetchAndSave()
+
+if __name__ == "__main__":
+    # sample web scrape 
+    url1 ="https://realpython.com/"
+    web = scrapping_webpage(url1,"real_python.html")
+    web.fetchData()
+
             
 
 
